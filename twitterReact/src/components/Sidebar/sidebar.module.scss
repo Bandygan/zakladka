@@ -1,0 +1,33 @@
+@import "../../variables";
+
+.container {
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  display: flex;
+  width: max-content;
+  flex-direction: column;
+  padding: 0 35px;
+}
+
+.button {
+  cursor: pointer;
+  padding: 10px 5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: $foregroundColor;
+  background-color: $twitterBlue;
+  border: none;
+  box-shadow: none;
+  border-radius: 100px;
+  text-align: center;
+}
+
+.icon {
+  margin: 10px;
+  width: 30px;
+  height: 30px;
+  path {
+    fill: $foregroundColor;
+  }
+}

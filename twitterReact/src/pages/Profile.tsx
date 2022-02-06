@@ -1,0 +1,66 @@
+import Feed from "../Feed";
+import ProfileHeader from "../components/ProfileHeader/ProfileHeader";
+import profileBackground from "../img/backgroundProfile.jpeg";
+import Tweet from "../components/Tweet/Tweet";
+import Layout from "../Layout";
+import { FC, useEffect, useState } from "react";
+import ProfileTabBar from "../components/ProfileTabBar/ProfileTabBar";
+import ApiService from "../utils/http.service";
+import { ITweet } from "../models/ITweet";
+import { IUser } from "../models/IUser";
+
+const Profile: FC = () => {
+  const [tweets, setTweets] = useState<ITweet[]>([]);
+  const [user, setUser] = useState<IUser>({} as IUser);
+
+  useEffect(() => {
+    ApiService.getUser("0").then((response) => {
+      setUser(response.data);
+    });
+    ApiService.getTweets().then((response) => {
+      setTweets(response.data);
+    });
+  }, []);
+
+  const Tweets = tweets.map((t) => {
+    return (
+      <Tweet
+        id={12}
+        authorAvatar={t.avatar}
+        authorName={t.name}
+        authorUsername={t.username}
+        tweetedTimeAgo={"19 h."}
+        tweetImage={t.image}
+        tweetText={t.text}
+        likesCount={t.likes}
+        retweetsCount={t.retweets}
+        commentsCount={t.comments}
+        isLiked={t.isLiked}
+      />
+    );
+  });
+
+  return (
+    <Layout>
+      <Feed>
+        <ProfileHeader
+          isMyProfile={true}
+          name={user.name}
+          username={user.username}
+          description={user.description}
+          websiteLink={user.link}
+          locationCountry={user.country}
+          dateJoined={"29 Feb. 2009"}
+          followingCount={user.following}
+          followersCount={user.followers}
+          profileAvatar={user.avatar}
+          profileBackground={user.background || ""}
+        />
+        <ProfileTabBar dataChanger={setTweets} initialData={tweets} />
+        {Tweets}
+      </Feed>
+    </Layout>
+  );
+};
+
+export default Profile;
